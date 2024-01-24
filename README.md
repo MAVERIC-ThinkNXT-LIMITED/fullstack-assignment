@@ -4,11 +4,17 @@ Maveric's interview assignment for recruiting fullstack developers
 # Problem statement
 Build a web application using Angular/ReactJS/VueJS for the Maveric bank customers so that they can manage their account information i.e, customer name, account id, balance and transaction information.
 
-UI must look exactly same as mentioned in the below wireframe and all the necessary APIs must be implemented as  per the given swagger file.
+> [!NOTE]
+> - UI must look exactly same as wirefrane givenn below
+> - All the APIs specified in the swagger file must be implemented as per specifications mentioned in the file(request response structure, error codes, paths and query parameters)
 
-!(artefacts/documents/maveric-bank-api.yml)
+
+# Architecture
+![maveric-bank-architecture](https://github.com/MAVERIC-ThinkNXT-LIMITED/fullstack-assignment/assets/9525282/9b228fd1-c1d3-4c11-87cc-bd48a231d94e)
 
 # Techstack
+
+Below is the techstack that we will be using in order to build this application
 
 | Application Compoent  | Tech stack |
 | ------------- | ------------- |
@@ -26,14 +32,13 @@ UI must look exactly same as mentioned in the below wireframe and all the necess
 | API Testing  | Postman |
 | API Documentation  | Swagger, OpenAPI spec  |
 
-# Architecture
-!(artefacts/resources/maveric-bank-architecture.png)
+# ER Diagram
+
+<img width="451" alt="image" src="https://github.com/MAVERIC-ThinkNXT-LIMITED/fullstack-assignment/assets/9525282/dc7b2668-da48-45ac-9921-e0bf04645c6c">
 
 # Wireframe
 
+![HomePage-wireframe](https://github.com/MAVERIC-ThinkNXT-LIMITED/fullstack-assignment/assets/9525282/ba6e09df-7fcb-4db8-933e-86ac0024fd76)
 
 # API Specification
-
-
-
 
