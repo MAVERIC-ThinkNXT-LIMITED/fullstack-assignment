@@ -6,69 +6,8 @@ info:
 servers:
   - url: http://localhost:8000/api/v1
     description: Local server
-security:
-  - BearerAuth: []
 paths:
-  /auth/login:
-    post:
-      summary: Login user based on email and password
-      tags:
-        - Authentication
-      operationId: login
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequest'
-        '401':
-          $ref: '#/components/responses/401Unauthorized'
-        '403':
-          $ref: '#/components/responses/403Forbidden'
-        '500':
-          $ref: '#/components/responses/500InternalServerError'
-        '503':
-          $ref: '#/components/responses/503ServiceUnavailable'
-  /auth/signup:
-    post:
-      summary: Creates a new user.
-      tags:
-        - Authentication
-      operationId: signup
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserWithPassword'
-      responses:
-        '201':
-          description: User created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequest'
-        '401':
-          $ref: '#/components/responses/401Unauthorized'
-        '403':
-          $ref: '#/components/responses/403Forbidden'
-        '500':
-          $ref: '#/components/responses/500InternalServerError'
-        '503':
-          $ref: '#/components/responses/503ServiceUnavailable'
+  # User service APIs
   /users:
     get:
       parameters:
@@ -223,7 +162,7 @@ paths:
           $ref: '#/components/responses/503ServiceUnavailable'
         default:
           description: Unexpected error
-  /users/getUserByEmail/{emailId}:
+  /users/emails/{emailId}:
     parameters:
       - name: emailId
         in: path
@@ -255,6 +194,7 @@ paths:
           $ref: '#/components/responses/500InternalServerError'
         '503':
           $ref: '#/components/responses/503ServiceUnavailable'
+  # Account service APIs
   /customers/{customerId}/accounts:
     parameters:
       - name: customerId
@@ -292,7 +232,7 @@ paths:
               schema: 
                 type: array
                 items: 
-                  $ref: '#/components/schemas/Account'
+                  $ref: '#/components/schemas/AccountWithoutBalance'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
@@ -356,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDetail'
+                $ref: '#/components/schemas/Account'
         '400':
           $ref: '#/components/responses/400BadRequest'
         '401':
@@ -425,8 +365,15 @@ paths:
           $ref: '#/components/responses/503ServiceUnavailable'
         default:
           description: Unexpected error
-  /accounts/{accountId}/balances:
+  # Balance service APIs
+  /customers/{customerId}/accounts/{accountId}/balances:
     parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: Customer Id
+        schema:
+          type: string
       - name: accountId
         in: path
         required: true
@@ -499,8 +446,14 @@ paths:
           $ref: '#/components/responses/500InternalServerError'
         '503':
           $ref: '#/components/responses/503ServiceUnavailable'
-  /accounts/{accountId}/balances/{balanceId}:
+  /customers/{customerId}/accounts/{accountId}/balances/{balanceId}:
     parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: Customer Id
+        schema:
+          type: string
       - name: balanceId
         in: path
         required: true
@@ -589,8 +542,15 @@ paths:
           $ref: '#/components/responses/503ServiceUnavailable'
         default:
           description: Unexpected error
-  /accounts/{accountId}/transactions:
+  # Transaction service APIs
+  /customers/{customerId}/accounts/{accountId}/transactions:
     parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: Customer Id
+        schema:
+          type: string
       - name: accountId
         in: path
         required: true
@@ -656,8 +616,14 @@ paths:
           $ref: '#/components/responses/503ServiceUnavailable'
         default:
           description: Unexpected error
-  /accounts/{accountId}/transactions/{transactionId}:
+  /customers/{customerId}/accounts/{accountId}/transactions/{transactionId}:
     parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: Customer Id
+        schema:
+          type: string
       - name: accountId
         in: path
         required: true
@@ -744,10 +710,6 @@ paths:
         default:
           description: Unexpected error
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http    
-      scheme: bearer
   responses:
     400BadRequest:
       description: The server could not understand the request due to invalid syntax.
@@ -802,24 +764,6 @@ components:
       required:
         - code
         - message
-    LoginRequest:
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-      required:
-        - email
-        - password
-    LoginResponse:
-      type: object
-      properties:
-        token:
-          type: string
-          description: JWT token
-        user:
-          $ref: '#/components/schemas/User'
     UserRequest:
        properties:
         firstName:
@@ -850,7 +794,7 @@ components:
           
     UserWithPassword:
       type: object
-      allOf: # Combines the main `Pet` schema with `Cat`-specific properties 
+      allOf: 
         - $ref: '#/components/schemas/UserRequest'
       properties:
         password:
@@ -860,7 +804,7 @@ components:
         - password
     User:
       type: object
-      allOf: # Combines the main `Pet` schema with `Cat`-specific properties 
+      allOf:  
         - $ref: '#/components/schemas/UserRequest'
       properties:
         _id:
@@ -878,26 +822,36 @@ components:
       required:  
         - type
         - customerId
-    Account:
+    AccountWithoutBalance:
       type: object
-      allOf: # Combines the main `Pet` schema with `Cat`-specific properties 
+      allOf: 
         - $ref: '#/components/schemas/AccountRequest'
       properties:
+        _id:
+          type: string
+          description: Account id
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-    AccountDetail:
+    Account:
       type: object
-      allOf: # Combines the main `Pet` schema with `Cat`-specific properties 
+      allOf:
         - $ref: '#/components/schemas/Account'
       properties:
         _id:
           type: string
+          description: Auto generated account id
         balance:
           $ref: '#/components/schemas/Balance'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     BalanceRequest:
       properties:
         amount:
