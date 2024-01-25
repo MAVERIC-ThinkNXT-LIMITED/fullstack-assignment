@@ -25,7 +25,9 @@ Candidates are expected to containerise the entire application and update the  /
 > 16) Webapp and all the services must have a README file listing the commands and all the dependencies to run the application
 
 > [!TIP]
-> Bonus points will be awarded for securing the APIs via JWT token & implementing the login page
+> Bonus points for:
+> 1. Securing the APIs via JWT token & implementing the login page
+> 2. Using Vault for storing application configuration securely
 
 # Problem statement
 
@@ -78,6 +80,19 @@ Below is the techstack that we will be using in order to build this application
 # Wireframe
 
 ![Maveric-Bank-App-Wireframe](https://github.com/MAVERIC-ThinkNXT-LIMITED/fullstack-assignment/assets/9525282/da8bb6f3-991a-4c32-99f2-5b3e0ac91379)
+
+| Page | Route |
+|------|-------|
+|Login | /login|
+|Dashboard  | /dashboard/{customerId} |
+
+> [!Note]
+> Login page is optional. Consider implementing this page only if you are securing your APIs via JWT token
+
+> [!Tip]
+> Bonus points for:
+> 1. Identifying the reusable components within the pages
+> 2. Organising application code based on the features
 
 # API Specification
 [Link to swagger file](./artefacts/documents/maveric-bank-api.yaml)
