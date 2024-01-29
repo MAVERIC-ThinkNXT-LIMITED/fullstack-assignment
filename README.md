@@ -1,5 +1,5 @@
 # fullstack-assignment
-Maveric's assignment for fullstack developers. Candidates are expected to complete this assignment within 48 hrs.
+Maveric's assignment for fullstack developers. Candidates are expected to complete this assignment within 2 days.
 
 Fork this repository and add the webapp and services code as specified in the README section. Once you are done with the assignment please share the link to your forked repository with our HR team.
 
