@@ -44,7 +44,7 @@ Follow below mentioned Techstack, Architecture, ER diagram, Wireframe and Swagge
 
 Below is the techstack that we will be using in order to build this application
 
-| Application Compoent  | Tech stack |
+| Application Component  | Tech stack |
 | ------------- | ------------- |
 | Front end  | Angular/ReactJs/VueJs, Jest/Jasmine, Cucumber, Mocha, Chai  |
 | Backend  | Java 17, Spring 3.2.2, Maven, Junit, Mockito  |
